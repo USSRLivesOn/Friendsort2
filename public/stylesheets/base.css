@@ -1,0 +1,169 @@
+/* ------------------------------------------ */
+/* =global elements
+--------------------------------------------- */
+
+body {
+  color: #999;
+  font: 14px "Lucida Grande", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #f4f4f4;
+}
+
+a:link, a:visited {
+  color: #3b5998;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  text-decoration: underline;
+}
+
+h1 {
+  color: #656565;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+/* ------------------------------------------ */
+/* =header
+--------------------------------------------- */
+
+#header {
+  box-sizing: border-box; /* width resized with JS to line up with cols, so ignore padding */
+  -moz-box-sizing: border-box;
+  margin: 20px;
+  padding: 20px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  -moz-border-radius: 5px;                                                                    
+  -webkit-border-radius: 5px;                                                                 
+  border-radius: 5px;
+}
+
+#header h1 {
+  border-bottom: 2px solid #ddd;
+  margin: 0 0 9px;
+  padding: 2px 0 8px;
+}
+
+#header #picture + div {
+  margin-left: 82px;
+}
+
+#header #picture {
+  background-position: center 25%;
+  background-repeat: no-repeat;
+  background-size: 64px;
+  float: left;
+  margin-right: 18px;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+}
+
+/* ------------------------------------------ */
+/* =filters
+--------------------------------------------- */
+
+#filter_buttons {
+  margin-left: 20px;
+  padding-bottom: 20px;
+}
+
+#filter_buttons li {
+  display: inline;
+}
+  
+#filter_buttons li a {
+  margin: 0 10px 0 0;
+  padding: 5px 20px;
+  border: 1px solid #ccc;
+  background-color: #ddd;
+  -moz-border-radius: 3px;                                                                    
+  -webkit-border-radius: 3px;                                                                 
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+#filter_buttons li a:hover {
+  text-decoration: none;
+  background-color: #ccc;
+}
+
+#filter_buttons li a.active {
+  background-color: #bbb;
+}
+
+/* ------------------------------------------ */
+/* =friends
+--------------------------------------------- */
+
+#friends {
+  width: 100%;
+  position: relative;
+}
+
+#friends .friend {
+  display: none;
+  position: absolute;
+  float: left;
+  width: 200px;
+  padding-bottom: 2px;
+  border: 1px solid #fff;
+  background-color: #fff;
+  -moz-border-radius: 3px;                                                                    
+  -webkit-border-radius: 3px;                                                                 
+  border-radius: 3px;
+  overflow: hidden;
+  -moz-box-shadow: 0 0 5px #aaa;
+  -webkit-box-shadow: 0 0 5px #aaa;
+  box-shadow: 0 0 5px #aaa;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 13px;
+  color: #7c7c7c;
+}
+
+#friends .friend:hover {
+  background-color: #ddd;
+  color: #444;
+  text-decoration: none;
+  border-color: #ccc;
+}
+
+#friends .friend img {
+  width: 200px; /* This will stretch some... */
+  -moz-border-top-left-radius: 3px;                                                                    
+  -moz-border-top-right-radius: 3px;                                                                    
+  -webkit-border-top-left-radius: 3px;                                                                    
+  -webkit-border-top-right-radius: 3px;                                                                    
+  border-top-left-radius: 3px;                                                                    
+  border-top-right-radius: 3px;                                                                    
+}
+
+#friends .friend .name {
+  padding-left: 4px;
+}
+
+/* ------------------------------------------ */
+/* =clearfix
+--------------------------------------------- */
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+}
