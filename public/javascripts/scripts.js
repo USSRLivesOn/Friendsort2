@@ -2,6 +2,7 @@ $(document).ready(function(){
   GUTTER_WIDTH = 20;
   COLUMN_WIDTH = 202;
   column_heights = init_columns();
+  friend_positions = init_friend_positions(column_heights.length);
   resize_headers(column_heights.length);
   var async = is_async();
   var friends = $('.friend');
@@ -10,8 +11,35 @@ $(document).ready(function(){
   friends.each(function(index, elem) {
     process_friend($(elem), async);
   });
+  bind_friend_images();
   bind_filter_buttons();
 });
+
+function bind_friend_images() {
+  $('#friends').on('click', '.friend img', function() {
+    var parent_div = $(this).parent();
+    parent_div.fadeTo(200, 0.5);
+    var friend_id = parent_div.data('friendId');
+    var current_scale = parent_div.data('scale');
+    var new_scale = (current_scale * 0.9).toFixed(3);
+    parent_div.data('scale', new_scale);
+    this.onload = function() {
+      parent_div.fadeTo(200, 1);
+      parent_div.data('imgWidth', this.width);
+      parent_div.data('imgHeight', Math.round(200 / this.width * this.height)); // May get stretched
+      var offset_string = parent_div.css('left');
+      var offset = offset_string.substr(0, offset_string.length - 2);
+      var column = Math.round(offset / (COLUMN_WIDTH + GUTTER_WIDTH));
+      column_heights[column] = 0;
+      var old_friend_positions_col = friend_positions[column];
+      friend_positions[column] = [];
+      $.each(old_friend_positions_col, function(index, elem_id) {
+        set_box_position($('#friend_' + elem_id.toString()));
+      });
+    };
+    this.src = '/image_proxy?scale=' + new_scale.toString() + '&friend_id=' + friend_id.toString();
+  });
+}
 
 // Resizes headers to match width of columns
 function resize_headers(num_cols) {
@@ -24,6 +52,7 @@ function resize_headers(num_cols) {
 function process_friend(elem, async) {
   var friend_id = elem.data('friendId');
   var friend_name = elem.data('friendName');
+  var scale = elem.data('scale');
   var on_complete_callback = (function(image, comp) {
     // console.log(comp.length.toString() + ' faces found for ' + friend_name);
     image.alt = friend_name;
@@ -36,7 +65,7 @@ function process_friend(elem, async) {
     update_filter_buttons(comp.length);
   });
   var image = new Image();
-  var src = '/image_proxy?friend_id=' + friend_id.toString();
+  var src = '/image_proxy?scale=' + scale.toString() + '&friend_id=' + friend_id.toString();
   detect_faces(image, src, on_complete_callback, async);
 }
 
@@ -113,6 +142,7 @@ function set_box_position(friend_box) {
   friend_box.css('left', left_offset.toString() + 'px');
   friend_box.css('top', top_offset.toString() + 'px');
   column_heights[shortest_col] += height + GUTTER_WIDTH;
+  friend_positions[shortest_col].push(friend_box.data('friendId'));
 }
 
 // Calculates how many columns we can have and initializes the start heights to zero
@@ -124,6 +154,15 @@ function init_columns() {
     column_heights[i] = 0;
   }
   return column_heights;
+}
+
+// Calculates how many columns we can have and initializes the start heights to zero
+function init_friend_positions(len) {
+  var friend_positions = [];
+  for (var i = 0; i < len; i++) {
+    friend_positions.push([]);
+  }
+  return friend_positions;
 }
 
 // Loads the image; when loaded, initializes face detection and callback

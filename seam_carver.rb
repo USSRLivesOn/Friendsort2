@@ -5,13 +5,15 @@ class SeamCarver
     @original_img.from_blob(blob)
     @original_pixels = img_to_array(@original_img, true)
     @grayscale_img = @original_img.quantize(256, Magick::GRAYColorspace) # Convert to grayscale
-    img_with_edges = @grayscale_img.edge() # Run through edge detector (proxy for intensity)
+    img_with_edges = @grayscale_img.edge(10) # Run through edge detector (proxy for intensity)
     @grayscale_pixels = img_to_array(img_with_edges)
     @energy_map = populate_energy_map(@grayscale_pixels)
   end
 
   # Carve initialized image to target_height pixels
-  def carve(target_height)
+  def carve(scale)
+    scale = [scale, 1.0].min
+    target_height = (@original_img.rows * scale).round
     seams_to_cut = [@original_img.rows - target_height, 0].max
     seams_to_cut.times do
       seam = get_lowest_energy_seam(@energy_map)

@@ -91,9 +91,9 @@ get "/image_proxy" do
   source_uri = 'http://graph.facebook.com/' + params[:friend_id] + '/picture?type=large'
   response = get_response(source_uri)
   content_type 'image/jpeg' # Always true? TODO: detect mime type
-  if params[:max_y]
+  if params[:scale]
     img = SeamCarver.new(response.body)
-    img.carve(params[:max_y].to_i)
+    img.carve(params[:scale].to_f)
   else
     response.body
   end

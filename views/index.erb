@@ -38,12 +38,14 @@
     <div id="friends">
       <% if @user %>
           <% @friends.each do |friend| %>
-            <a id="friend_<%= friend['id']%>" class="friend"
+            <div id="friend_<%= friend['id']%>" class="friend"
                 href="http://www.facebook.com/<%= friend['id']%>"
                 data-friend-id="<%= friend['id']%>"
-                data-friend-name="<%= friend['name'] %>">
-              <span class="name"><%= friend['name'] %></span>
-            </a>
+                data-friend-name="<%= friend['name'] %>"
+                data-scale="1.0"
+            >
+              <a class="name" href="http://www.facebook.com/<%= friend['id']%>"><%= friend['name'] %></a>
+            </div>
           <% end %>
       <% end %>
     </div>
