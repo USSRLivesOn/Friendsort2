@@ -36,7 +36,7 @@ function process_friend(elem, async) {
     update_filter_buttons(comp.length);
   });
   var image = new Image();
-  var src = '/image_proxy?src=http://graph.facebook.com/' + friend_id + '/picture?type=large';
+  var src = '/image_proxy?friend_id=' + friend_id.toString();
   detect_faces(image, src, on_complete_callback, async);
 }
 

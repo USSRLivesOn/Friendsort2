@@ -92,9 +92,9 @@ get "/test" do
 end
 
 # Proxy FB images, since canvas tag ignores access-control-allow-origin header
-# TODO: validate URI is graph.facebook.com
 get "/image_proxy" do
-  response = get_response(params[:src])
+  source_uri = 'http://graph.facebook.com/' + params[:friend_id] + '/picture?type=large'
+  response = get_response(source_uri)
   content_type 'image/jpeg' # Always true? TODO: detect mime type
   response.body
 end
