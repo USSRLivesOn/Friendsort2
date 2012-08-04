@@ -2,17 +2,12 @@ require 'net/http'
 require 'sinatra'
 require 'koala'
 
+require File.dirname(__FILE__) + "/seam_carver"
+
 enable :sessions
 set :raise_errors, false
 set :show_exceptions, false
 
-# Scope defines what permissions that we are asking the user to grant.
-# In this example, we are asking for the ability to publish stories
-# about using the app, access to what the user likes, and to be able
-# to use their pictures.  You should rewrite this scope with whatever
-# permissions your app needs.
-# See https://developers.facebook.com/docs/reference/api/permissions/
-# for a full list of permissions
 FACEBOOK_SCOPE = 'friends_photos'
 
 unless ENV["FACEBOOK_APP_ID"] && ENV["FACEBOOK_SECRET"]
@@ -96,7 +91,12 @@ end
 get "/image_proxy" do
   response = get_response(params[:src])
   content_type 'image/jpeg' # Always true? TODO: detect mime type
-  response.body
+  if params[:max_y]
+    img = SeamCarver.new(response.body)
+    img.carve(params[:max_y].to_i)
+  else
+    response.body
+  end
 end
 
 # Follow redirects up to <limit> times
